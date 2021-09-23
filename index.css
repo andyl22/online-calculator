@@ -43,7 +43,7 @@ form {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    padding: 10px;
+    padding: 20px 15px 0px 15px;
     background-color: rgb(243, 240, 240);
     font-size: 24px;
     text-overflow: clip;
@@ -53,6 +53,12 @@ form {
     border: 1px solid rgb(187, 183, 183);
     border-radius: 15px;
     margin-bottom: 30px;
+}
+
+#equation {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgba(116, 101, 131, 60%);
+    font-size: 16px;
 }
 
 #numbers, #modifiers, #operations{
