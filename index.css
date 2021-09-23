@@ -69,6 +69,10 @@ input {
     border-radius: 5%;
     border: 1px solid rgb(131, 124, 124);
     background: rgb(218, 209, 209);
+    padding: 5px;
+    height: 60px;
+    width: 60px;
+    font-size: 24px;
 }
 
 input:hover {
@@ -79,13 +83,8 @@ input:hover {
     color: #353638;
 }
 
-input[type="button"] {
-    padding: 7px 20px;
-    font-size: 32px;
-}
-
 input[type="submit"] {
-    padding: 7px 30px;
+    width: 200px;
     font-size: 28px;
 }
 
