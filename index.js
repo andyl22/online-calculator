@@ -1,43 +1,102 @@
 function add (numA, numB) {
-    return (numA + numB);
+    return numA + numB;
 }
 
 function subtract (numA, numB) {
-    return (numA - numB);
+    return numA - numB;
 }
 
 function multiply (numA, numB) {
-    return (numA * numB);
+    return numA * numB;
 }
 
 function divide (numA, numB) {
-    return (numA / numB);
+    return numA / numB;
 }
 
 function operate(operation, numA, numB) {
+    numA = parseInt(numA);
+    numB = parseInt(numB);
     switch(operation) {
-        case(add):
-            add(numA, numB);
-            break;
-        case(subtract):
-            subtract(numA, numB);
-            break;
-        case(multiply):
-            multiply(numA, numB);
-            break;
-        case(divide):
-            divide(numA, numB);
-            break;
+        case("add"):
+            console.log(operation, numA, numB);
+            return add(numA, numB);
+        case("subtract"):
+            console.log(operation, numA, numB);
+            return subtract(numA, numB);
+        case("multiply"):
+            console.log(operation, numA, numB);
+            return multiply(numA, numB);
+        case("divide"):
+            console.log(operation, numA, numB);
+            return divide(numA, numB);
     }
 }
 
 function evalButton(e){
     const buttonValue = e.path[0].value;
-    display.textContent += buttonValue;
+    parseInt(buttonValue) ? lastInput = buttonValue : false; // handle assignment early if int
+    if (validationRules(buttonValue)) {
+        display.textContent += buttonValue;
+        if (parseEquation(buttonValue)) {
+            input += buttonValue;
+        }
+    }
     lastInput = buttonValue;
 }
 
-function validationRules(value) {
+function validationRules(buttonValue) {
+    if (
+    preventDuplicateOperationsandModifiers(buttonValue)
+    && checkForExistingDecimal(buttonValue)
+    && parenthesisCountLogic(buttonValue)
+    ) {
+        return true;
+    }
+}
+
+function preventDuplicateOperationsandModifiers(buttonValue) {
+    if (lastInput.match(/[+|\-|*|/]/)) {
+        return false;
+    } else if (buttonValue == "." && decimalCheck == true) {
+        return false;
+    } else if (buttonValue == "." && decimalCheck == false) {
+        decimalCheck = true;
+    }
+    return true;
+}
+
+function parseEquation(buttonValue) {
+    if (buttonValue.match(/[+|\-|*|/]/)) {
+        array.push(input);
+        array.push(buttonValue);
+        input = "";
+        return false;
+    }
+    return true;
+}
+
+function checkForExistingDecimal(buttonValue) {
+    if (buttonValue.match(/[+|\-|*|/|(|)]/)) {
+        decimalCheck = false;
+    }
+    return true;
+}
+
+function parenthesisCountLogic(buttonValue) {
+    if (buttonValue == "(") {
+        parenthesisCount++;
+    }
+
+    if (buttonValue == ")") {
+        if(parenthesisCount>0) {
+            parenthesisCount--;
+        } else {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function setupButtonListeners() {
@@ -47,16 +106,41 @@ function setupButtonListeners() {
     modifierButtons.forEach(button => button.addEventListener("click", evalButton));
     let operationButtons = Array.from(document.querySelectorAll("#operations input"));
     operationButtons.forEach(button => button.addEventListener("click", evalButton));
+    let submitForm = document.getElementById("calculator");
+    submitForm.addEventListener("submit", logSubmit);
 }
 
-function logSubmit(e) {
-    let input = document.getElementById("display");
-    console.log(input);
+function logSubmit() {
+    let equation = document.getElementById("display").textContent;
+    array.push(input);
+    sum = parseInt(array[0]);
+    for(let i = 1; i<array.length; i+=2) {
+        let [numA, operator, numB] = [sum, array[i], array[i+1]];
+        operator = operatorConversion(operator);
+        sum = operate(operator, numA, numB);
+        console.log(sum);
+    }
 }
 
+function operatorConversion(operator) {
+    return (operator === "+") ? "add"
+    : operator === "-" ? "subtract"
+    : operator === "*" ? "multiply"
+    : "divide";
+}
+
+// used for input validation checks
+let parenthesisCount = 0;
 let lastInput = "";
+let decimalCheck = false;
+
+// Sets up listeners for all equation building buttons
 setupButtonListeners()
-let display = document.getElementById("display");
-let form = document.getElementById("calculator");
-form.addEventListener("submit", logSubmit);
+let input = "";
+let array = [];
+
+
+
+
+
 
