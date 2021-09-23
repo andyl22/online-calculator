@@ -31,7 +31,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     background: rgb(236, 234, 234);
     border-radius: 50px;
     width: 300px;
@@ -99,5 +99,11 @@ input[type="submit"] {
 
     #numbers, #modifiers, #operations{
         margin-bottom: 15px;
+    }
+
+    form {
+        width: 250px;
+        margin: 0;
+        gap: 0px;
     }
 }
