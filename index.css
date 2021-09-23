@@ -6,6 +6,7 @@
 
 html {
     background-color: rgb(240, 229, 216);
+    height: 100%;
 }
 
 header {
@@ -14,10 +15,16 @@ header {
     margin: 25px 0px;
 }
 
-main {
+h1 {
+    margin-bottom: 15px;
+}
+
+body {
     display: flex;
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    min-height: 80%;
 }
 
 form {
@@ -25,9 +32,11 @@ form {
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    background: rgb(244, 246, 248);
-    width: 580px;
-    padding: 80px;
+    background: rgb(236, 234, 234);
+    border-radius: 50px;
+    width: 300px;
+    padding: 60px;
+    border: 2px solid black;
 }
 
 #display {
@@ -43,6 +52,7 @@ form {
     word-break: break-all;
     border: 1px solid rgb(187, 183, 183);
     border-radius: 15px;
+    margin-bottom: 30px;
 }
 
 #numbers, #modifiers, #operations{
@@ -51,15 +61,22 @@ form {
     margin-bottom: 15px;
 }
 
+#numbers {
+    width: 200px;
+}
+
 input {
     border-radius: 5%;
-    border: 1px solid gainsboro;
+    border: 1px solid rgb(131, 124, 124);
     background: rgb(218, 209, 209);
 }
 
 input:hover {
     cursor: pointer;
-    border: 1px solid gray;
+    border: 1px solid rgb(80, 79, 79);
+    box-shadow: 0 3px 3px rgb(0 0 0 / 10%);
+    border: 1px solid #000000;
+    color: #353638;
 }
 
 input[type="button"] {
@@ -79,13 +96,8 @@ input[type="submit"] {
 }
 
 @media only screen and (max-width: 620px) {
-    form {
-        width: 100%;
-    }
 
     #numbers, #modifiers, #operations{
         margin-bottom: 15px;
     }
-
 }
-

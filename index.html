@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="index.css">
     <header>
         <h1>Calculator App</h1>
+        <p>Currently, order of operations is not supported.. <br>
+             evaluated from first input to last.</p>
     </header>
     <main>
         <form name="calculator" id="calculator">
+            <p id="equation"></p>
             <p id="display"></p>
             <div id="numbers">
                 <input type="button" value=1>
@@ -27,6 +30,7 @@
                 <input type="button" value=7>
                 <input type="button" value=8>
                 <input type="button" value=9>
+                <input type="button" value=0>
             </div>
             <div id="modifiers">
                 <input type="button" value=".">
