@@ -1,0 +1,90 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+html {
+    background-color: rgb(240, 229, 216);
+}
+
+header {
+    text-align: center;
+    color: rgb(83, 4, 4);
+    margin-bottom: 25px;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background: rgb(244, 246, 248);
+    width: 580px;
+    padding: 30px;
+}
+
+#display {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 10px;
+    background-color: rgb(243, 240, 240);
+    font-size: 24px;
+    text-overflow: clip;
+    min-height: 50px;
+    width: 100%;
+    word-break: break-all;
+    border: 1px solid;
+}
+
+#numbers, #modifiers, #operations{
+    display: flex;
+    gap: 3px;
+    margin-bottom: 15px;
+}
+
+input {
+    border-radius: 5%;
+    border: 1px solid gainsboro;
+    background: rgb(218, 209, 209);
+}
+
+input:hover {
+    cursor: pointer;
+    border: 1px solid gray;
+}
+
+input[type="button"] {
+    padding: 7px 20px;
+    font-size: 32px;
+}
+
+input[type="submit"] {
+    padding: 7px 30px;
+    font-size: 28px;
+}
+
+#numbers, #modifiers, #operations, #calculate {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 620px) {
+    form {
+        width: 100%;
+    }
+
+    #numbers, #modifiers, #operations{
+        margin-bottom: 15px;
+    }
+
+}
+
