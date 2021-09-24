@@ -21,11 +21,30 @@ function resetCalc() {
     console.log("test");
 }
 
+// delete last input... if input string is completely removed, pop values from the calculation array
 function deleteLastInput() {
-    lastInput = "";
-    input = input.substring(0, input.length -1);
+    if (input.length>0) {
+        removeInput();
+    } else if (array.length>0) {
+        removeArrayAndInitializeInput();
+    } else {
+        return;
+    }
     let displayText = display.textContent;
     display.textContent = displayText.substring(0, displayText.length -1);
+}
+
+function removeInput() {
+    lastInput = "";
+    input = input.substring(0, input.length -1);
+}
+
+function removeArrayAndInitializeInput() {
+    lastInput = "";
+    let arrayElement = array.pop();
+    let arrayElementLength = arrayElement.length;
+    arrayElement = arrayElement.substring(0, arrayElementLength -1);
+    input = arrayElement;
 }
 
 //evaulating the input values by executing multiple if statements, broken apart into separate functions.
@@ -46,7 +65,6 @@ function validationRules(buttonValue) {
     if (
         preventDuplicateOperationsandModifiers(buttonValue)
         && checkForExistingDecimal(buttonValue)
-        && parenthesisCounter(buttonValue)
     ) {
         return true;
     }
@@ -64,31 +82,17 @@ function preventDuplicateOperationsandModifiers(buttonValue) {
 }
 
 function checkForExistingDecimal(buttonValue) {
-    if (buttonValue.match(/[+|\-|*|/|(|)]/)) {
+    if (buttonValue.match(operatorsRegex)) {
         decimalCheck = false;
     }
     return true;
 }
 
-function parenthesisCounter(buttonValue) {
-    if (buttonValue == "(") {
-        parenthesisCount++;
-    }
-
-    if (buttonValue == ")") {
-        if (parenthesisCount > 0) {
-            parenthesisCount--;
-        } else {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 function storeInput(buttonValue) {
-    if (buttonValue.match(/[+|\-|*|/]/) && lastInput != "") {
-        array.push(input);
+    if (buttonValue.match(operatorsRegex)) {
+        if (input != "") { // this check is needed due to the fact that deleting an operand would set the input to ""
+            array.push(input);
+        }
         array.push(buttonValue);
         input = "";
         console.log(array);
@@ -102,20 +106,30 @@ function storeInput(buttonValue) {
 // calculates using order of sequence, rather than operations 2 numbers at a time,
 // writing to the the calculator with the output and equation
 
-function add(numA, numB) {
-    return numA + numB;
+function logSubmit(e) {
+    e.preventDefault();
+    array.push(input);
+    let calculatedNumber = calculateSum();
+    postCalculationCleanUp(calculatedNumber);
 }
 
-function subtract(numA, numB) {
-    return numA - numB;
+function calculateSum() {
+    let rollingCalculation = parseInt(array[0]);
+    for (let i = 1; i < array.length; i += 2) {
+        let [numA, operator, numB] = [rollingCalculation, array[i], array[i + 1]];
+        numA = parseInt(numA);
+        numB = parseInt(numB);
+        operator = operatorConversion(operator);
+        rollingCalculation = operate(operator, numA, numB);
+    }
+    return rollingCalculation;
 }
 
-function multiply(numA, numB) {
-    return numA * numB;
-}
-
-function divide(numA, numB) {
-    return numA / numB;
+function operatorConversion(operator) {
+    return (operator == "+") ? "add"
+        : operator == "-" ? "subtract"
+            : operator == "*" ? "multiply"
+                : "divide";
 }
 
 function operate(operation, numA, numB) {
@@ -135,23 +149,20 @@ function operate(operation, numA, numB) {
     }
 }
 
-function operatorConversion(operator) {
-    return (operator == "+") ? "add"
-        : operator == "-" ? "subtract"
-            : operator == "*" ? "multiply"
-                : "divide";
+function add(numA, numB) {
+    return numA + numB;
 }
 
-function calculateSum() {
-    let rollingCalculation = parseInt(array[0]);
-    for (let i = 1; i < array.length; i += 2) {
-        let [numA, operator, numB] = [rollingCalculation, array[i], array[i + 1]];
-        numA = parseInt(numA);
-        numB = parseInt(numB);
-        operator = operatorConversion(operator);
-        rollingCalculation = operate(operator, numA, numB);
-    }
-    return rollingCalculation;
+function subtract(numA, numB) {
+    return numA - numB;
+}
+
+function multiply(numA, numB) {
+    return numA * numB;
+}
+
+function divide(numA, numB) {
+    return numA / numB;
 }
 
 function postCalculationCleanUp(calculation) {
@@ -161,18 +172,10 @@ function postCalculationCleanUp(calculation) {
     input = calculation;
 }
 
-function logSubmit(e) {
-    e.preventDefault();
-    array.push(input);
-    let calculatedNumber = calculateSum();
-    postCalculationCleanUp(calculatedNumber);
-}
-
-
 // global variables set up for validations and input storage
 let display = document.getElementById("display");
 let equation = document.getElementById("equation");
-let parenthesisCount = 0;
+let operatorsRegex = (/[+|\-|*|/]/);
 let lastInput = "";
 let decimalCheck = false;
 let input = "";
