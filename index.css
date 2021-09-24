@@ -63,12 +63,18 @@ form {
 
 #numbers, #modifiers, #operations{
     display: flex;
-    gap: 3px;
+    gap: 5px;
     margin-bottom: 15px;
 }
 
 #numbers {
-    width: 200px;
+    width: 250px;
+    gap: 10px;
+}
+
+#numbers input {
+    height: 70px;
+    width: 70px;
 }
 
 input {
@@ -111,5 +117,19 @@ input[type="submit"] {
         margin: 0;
         gap: 0px;
         margin-bottom: 50px;
+    }
+
+    #numbers input {
+        height: 60px;
+        width: 60px;
+    }
+
+    #numbers {
+        gap: 5px;
+    }
+
+    input {
+        height: 50px;
+        width: 50px;
     }
 }
