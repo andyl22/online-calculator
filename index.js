@@ -51,7 +51,7 @@ function removeArrayAndInitializeInput() {
 // It's then stored into the global string (input) and pushed to an array for later calculation
 function evalButton(e) {
     const buttonValue = e.path[0].value;
-    parseInt(buttonValue) ? lastInput = buttonValue : false; // handle assignment early if int
+    parseFloat(buttonValue) ? lastInput = buttonValue : false; // handle assignment early if int
     if (validationRules(buttonValue)) {
         display.textContent += buttonValue;
         if (storeInput(buttonValue)) {
@@ -114,11 +114,11 @@ function logSubmit(e) {
 }
 
 function calculateSum() {
-    let rollingCalculation = parseInt(array[0]);
+    let rollingCalculation = parseFloat(array[0]);
     for (let i = 1; i < array.length; i += 2) {
         let [numA, operator, numB] = [rollingCalculation, array[i], array[i + 1]];
-        numA = parseInt(numA);
-        numB = parseInt(numB);
+        numA = parseFloat(numA);
+        numB = parseFloat(numB);
         operator = operatorConversion(operator);
         rollingCalculation = operate(operator, numA, numB);
     }
@@ -135,34 +135,31 @@ function operatorConversion(operator) {
 function operate(operation, numA, numB) {
     switch (operation) {
         case ("add"):
-            console.log(operation, numA, numB);
             return add(numA, numB);
         case ("subtract"):
-            console.log(operation, numA, numB);
             return subtract(numA, numB);
         case ("multiply"):
-            console.log(operation, numA, numB);
             return multiply(numA, numB);
         case ("divide"):
-            console.log(operation, numA, numB);
             return divide(numA, numB);
     }
 }
 
 function add(numA, numB) {
-    return numA + numB;
+    return Math.round((numA + numB)*1000)/1000;
 }
 
 function subtract(numA, numB) {
-    return numA - numB;
+    return Math.round((numA - numB)*1000)/1000;
 }
 
 function multiply(numA, numB) {
-    return numA * numB;
+    console.log(numA, numB);
+    return Math.round((numA * numB)*1000)/1000;
 }
 
 function divide(numA, numB) {
-    return numA / numB;
+    return Math.round((numA / numB)*1000)/1000;
 }
 
 function postCalculationCleanUp(calculation) {
