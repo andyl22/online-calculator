@@ -32,7 +32,7 @@ form {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    background: rgb(236, 234, 234);
+    background: rgb(94, 92, 199);
     border-radius: 50px;
     width: 300px;
     padding: 60px;
@@ -44,32 +44,48 @@ form {
     flex-direction: row-reverse;
     align-items: center;
     padding: 20px 15px 0px 15px;
-    background-color: rgb(243, 240, 240);
+    background: rgb(243, 240, 240);
     font-size: 24px;
     text-overflow: clip;
     min-height: 50px;
     width: 100%;
     word-break: break-all;
-    border: 1px solid rgb(187, 183, 183);
+    border: 5px solid rgb(15, 14, 14);
     border-radius: 15px;
     margin-bottom: 30px;
 }
 
 #equation {
+    position: relative;
+    top: 40px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: rgba(116, 101, 131, 60%);
-    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
 }
 
 #numbers, #modifiers, #operations{
     display: flex;
     gap: 5px;
-    margin-bottom: 15px;
 }
 
 #numbers {
+    background: rgb(169 153 79 / 39%);
+    padding: 10px;
+    border-radius: 20px;
     width: 250px;
     gap: 10px;
+    border: 3px solid rgb(37, 36, 36);
+}
+
+#functional-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 3px solid rgb(37, 36, 36);
+    padding: 10px;
+    margin: 15px 0px 25px 0px;
+    border-radius: 20px;
+    background: rgb(169 153 79 / 39%);
 }
 
 #numbers input {
@@ -79,7 +95,7 @@ form {
 
 input {
     border-radius: 15px;
-    border: 1px solid rgb(131, 124, 124);
+    border: 3px solid rgb(102, 92, 92);
     background: rgb(218, 209, 209);
     padding: 5px;
     height: 60px;
@@ -108,10 +124,6 @@ input[type="submit"] {
 
 @media only screen and (max-width: 620px) {
 
-    #numbers, #modifiers, #operations{
-        margin-bottom: 15px;
-    }
-
     form {
         width: 250px;
         margin: 0;
@@ -120,16 +132,20 @@ input[type="submit"] {
     }
 
     #numbers input {
-        height: 60px;
-        width: 60px;
+        height: 65px;
+        width: 70px;
     }
 
     #numbers {
-        gap: 5px;
+        gap: 13px;
     }
 
     input {
         height: 50px;
         width: 50px;
+    }
+
+    #equation {
+        top: 25px;
     }
 }
