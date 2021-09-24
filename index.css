@@ -39,6 +39,15 @@ form {
     border: 2px solid black;
 }
 
+#equation {
+    position: relative;
+    top: 40px;
+    height: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+}
+
 #display {
     display: flex;
     flex-direction: row-reverse;
@@ -55,16 +64,19 @@ form {
     margin-bottom: 30px;
 }
 
-#equation {
-    position: relative;
-    top: 40px;
-    height: 15px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: rgba(0, 0, 0, 0.6);
+#cleaning-buttons {
+    display: flex;
+    margin-top: -32px;
+    margin-bottom: -3px;
+    gap: 10px;
+}
+
+#delete, #reset {
+    height: 30px;
     font-size: 12px;
 }
 
-#numbers, #modifiers, #operations{
+#numbers, #modifiers, #operations {
     display: flex;
     gap: 5px;
 }
@@ -124,29 +136,30 @@ input[type="submit"] {
 }
 
 @media only screen and (max-width: 620px) {
-
     form {
         width: 250px;
         margin: 0;
         gap: 0px;
         margin-bottom: 50px;
     }
-
     #numbers input {
         height: 65px;
         width: 70px;
     }
-
     #numbers {
         gap: 13px;
     }
-
     input {
         height: 50px;
         width: 50px;
     }
-
     #equation {
         top: 25px;
+    }
+
+    #cleaning-buttons {
+        margin-top: -25px;
+        margin-bottom: 5px;
+        gap: 10px;
     }
 }
