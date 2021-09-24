@@ -7,14 +7,28 @@ function setupButtonListeners() {
     let operationButtons = Array.from(document.querySelectorAll("#operations input"));
     operationButtons.forEach(button => button.addEventListener("click", evalButton));
     let submitForm = document.getElementById("calculator");
-    submitForm.addEventListener("submit", logSubmit);
+    submitForm.addEventListener("submit", initiateCalculation);
     let resetButton = document.getElementById("reset");
-    resetButton.addEventListener("click", resetCalc);
+    resetButton.addEventListener("click", clearAllData);
     let deleteButton = document.getElementById("delete");
     deleteButton.addEventListener("click", deleteLastInput);
+    document.addEventListener("keydown", keypress);
 }
 
-function resetCalc() {
+function keypress(e) {
+    let keyInput = e.key;
+    if (parseInt(keyInput)+1 || keyInput.match(/[+|\-|*|/|.]/)) {
+        processEquationValues(keyInput);
+    } else if (keyInput == "Backspace") {
+        deleteLastInput();
+    } else if (keyInput == "Enter") {
+        initiateCalculation(e);
+    } else if (keyInput == "Escape") {
+        clearAllData();
+    }
+}
+
+function clearAllData() {
     display.textContent = "";
     equation.textContent = "";
     input = "";
@@ -27,8 +41,8 @@ function deleteLastInput() {
         removeInput();
     } else if (array.length>0) {
         removeArrayAndInitializeInput();
-    } else {
-        return;
+    } else if (array.length==0) {
+        input = "";
     }
     let displayText = display.textContent;
     display.textContent = displayText.substring(0, displayText.length -1);
@@ -51,49 +65,53 @@ function removeArrayAndInitializeInput() {
 // It's then stored into the global string (input) and pushed to an array for later calculation
 function evalButton(e) {
     const buttonValue = e.path[0].value;
-    parseFloat(buttonValue) ? lastInput = buttonValue : false; // handle assignment early if int
-    if (validationRules(buttonValue)) {
-        display.textContent += buttonValue;
-        if (storeInput(buttonValue)) {
-            input += buttonValue;
-        }
-    }
-    lastInput = buttonValue;
+    processEquationValues(buttonValue);
 }
 
-function validationRules(buttonValue) {
+function processEquationValues(inputValue) {
+    parseFloat(inputValue) ? lastInput = inputValue : false; // early assignment to bypass repeated opereand check
+    if (validationRules(inputValue)) {
+        display.textContent += inputValue;
+        if (storeInput(inputValue)) {
+            input += inputValue;
+        }
+    }
+    lastInput = inputValue;
+}
+
+function validationRules(inputValue) {
     if (
-        preventDuplicateOperationsandModifiers(buttonValue)
-        && checkForExistingDecimal(buttonValue)
+        preventDuplicateOperationsandModifiers(inputValue)
+        && checkForExistingDecimal(inputValue)
     ) {
         return true;
     }
 }
 
-function preventDuplicateOperationsandModifiers(buttonValue) {
-    if (lastInput.match(/[+|\-|*|/]/)) {
+function preventDuplicateOperationsandModifiers(inputValue) {
+    if (lastInput.match(operatorsRegex)) {
         return false;
-    } else if (buttonValue == "." && decimalCheck == true) {
+    } else if (inputValue == "." && decimalCheck == true) {
         return false;
-    } else if (buttonValue == "." && decimalCheck == false) {
+    } else if (inputValue == "." && decimalCheck == false) {
         decimalCheck = true;
     }
     return true;
 }
 
-function checkForExistingDecimal(buttonValue) {
-    if (buttonValue.match(operatorsRegex)) {
+function checkForExistingDecimal(inputValue) {
+    if (inputValue.match(operatorsRegex)) {
         decimalCheck = false;
     }
     return true;
 }
 
-function storeInput(buttonValue) {
-    if (buttonValue.match(operatorsRegex)) {
-        if (input != "") { // this check is needed due to the fact that deleting an operand would set the input to ""
+function storeInput(inputValue) {
+    if (inputValue.match(operatorsRegex)) {
+        if (input) { // this check is needed due to the fact that deleting an operand would set the input to ""
             array.push(input);
         }
-        array.push(buttonValue);
+        array.push(inputValue);
         input = "";
         console.log(array);
         return false;
@@ -106,14 +124,14 @@ function storeInput(buttonValue) {
 // calculates using order of sequence, rather than operations 2 numbers at a time,
 // writing to the the calculator with the output and equation
 
-function logSubmit(e) {
+function initiateCalculation(e) {
     e.preventDefault();
     array.push(input);
-    let calculatedNumber = calculateSum();
+    let calculatedNumber = calculateResult();
     postCalculationCleanUp(calculatedNumber);
 }
 
-function calculateSum() {
+function calculateResult() {
     let rollingCalculation = parseFloat(array[0]);
     for (let i = 1; i < array.length; i += 2) {
         let [numA, operator, numB] = [rollingCalculation, array[i], array[i + 1]];

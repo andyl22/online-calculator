@@ -13,15 +13,19 @@
     <link rel="stylesheet" href="index.css">
     <header>
         <h1>Calculator App</h1>
-        <p>Evaluated by sequence, not order of operations</p>
+        <p>Evaluated by sequence, not order of operations.<br><br>
+            Numbers and operators are mapped to their specific keys. <br>
+            Backspace to remove last input, escape to clear data, <br>
+            and enter to calculate. 
+        </p>
     </header>
     <main>
         <form name="calculator" id="calculator">
             <p id="equation"></p>
             <p id="display"></p>
-            <div id = "cleaning-buttons">
+            <div id="cleaning-buttons">
                 <input type="button" id="delete" value="Delete">
-                <input type="button" id="reset" value="Reset">
+                <input type="button" id="reset" value="Clear">
             </div>
             <div id="numbers">
                 <input type="button" value=1>
